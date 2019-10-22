@@ -1,0 +1,39 @@
+Tabassum Fabiha -- tf2478
+> g test0
+> p
+0
+1
+> r -1 
+THAT IS NOT A VALID COMMAND
+> r -1 hi
+THAT IS NOT A VALID COMMAND
+> r 9 
+THAT IS NOT A VALID COMMAND
+> r 9 hi
+THAT IS NOT A VALID COMMAND
+> r 0 hi
+> p
+0
+1 hi
+2
+> r 1 hello hi hi hi hello hi
+> p
+0
+1 hello hi hi hi hello hi
+2
+> r 2 hi hi hello pirates and treasures
+> p
+0
+1 hello hi hi hi hello hi
+2 hi hi hello pirates and treasures
+3
+> q
+PLEASE SAVE FIRST
+> g
+PLEASE SAVE FIRST
+> s test
+SAVED FILE
+> s test0
+SAVED FILE
+> q
+GOODBYE

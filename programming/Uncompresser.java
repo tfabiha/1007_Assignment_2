@@ -1,8 +1,31 @@
 import java.io.*;
 import java.util.*;
 
+/**
+ * @author Tabassum Fabiha -- tf2478
+ * 
+ * This Class implements the uncompresser method of editing a file. It stores all
+ * info into compressedContent, which is a LinkedList<String> and the
+ * reason for such is explained below at the end of the file.
+ * 
+ * The class is able to get files, create new files, print the compressed contents, remove
+ * lines from the content, remove words from the content, replace words in the content,
+ * replace lines in a content, and save the content to a file.
+ * 
+ * For saving if the user specifies that they would like to save as a .txt. If the user
+ * does not specify the name of what the file should be saved as then the file is saved
+ * with the same name that it was created with.
+ * 
+ * If at any point the methods throw an Exception then that means the user has not provided
+ * a valid command. Examples of when this will happen: removing a line that does not exist,
+ * trying to add a line outside of the given options, and not providing all the information
+ * that is required to run a command. 
+ */
 public class Uncompresser {
 	
+	/**
+	 * This method creates a new file with the name DEFAULTNAME.
+	 */
 	public Uncompresser() {
 		fileName = DEFAULTFNAME;
 	}
@@ -15,9 +38,6 @@ public class Uncompresser {
 	 * of the file to the database. If not then we assume that we are creating a new
 	 * file of that name. Thus regardless of the results of the boolean we set  
 	 * fileName to fName.
-	 * 
-	 * TODO 
-	 * CHANGE FROM SCANNER TO FILEREADER
 	 */
 	public Uncompresser(String fName) {
 		
@@ -89,17 +109,21 @@ public class Uncompresser {
 	 * @param index index of the line from the interface perspective to remove 
 	 * @throws Exception if the index doesn't exist or if no file has been opened
 	 * 
-	 * This method removes the line of the given index
+	 * This method removes the line at the given index
 	 */
-	public void remove(int index) throws Exception {
+	public void removeLine(int index) throws Exception {
 		uncompressedContent.remove(index - 1);
 		lastEditSaved = false;
 	}
 	
 	/**
-	 * @param index
-	 * @param line
-	 * @throws Exception
+	 * @param index index of the line in the perspective of the user to be replaced
+	 * @param line new line at the given index
+	 * @throws Exception if an invalid command is given
+	 * 
+	 * This method replaces line given by the index with the word form of the
+	 * new line. It also sets lastEditSaved to false after all changes because a new
+	 * edit has been made. 
 	 */
 	public void replace(int index, String line) throws Exception {
 		if (index == 0) {
@@ -117,6 +141,47 @@ public class Uncompresser {
 	}
 	
 	/**
+	 * @param inLine string containing the word to be replaced
+	 * 
+	 * This method removes all instances of the given word in the text. It iterates
+	 * through every line in the text and if it sees the word then it removes it. If
+	 * the changed line after being edited is empty then the entire line is removed.
+	 */
+	public void removeWord(String inLine) {
+		write(inLine);
+	}
+	
+	/**
+	 * @param inLine string containing the word to be replaced and all the words to
+	 * replace it
+	 * 
+	 * The method replaces all instances of the given word in the text with the new
+	 * given words. It iterates through each line in the text and if it sees the word
+	 * to be replaced, the replacement is made. If the changed line after being edited
+	 * is empty then the entire line is removed.
+	 */
+	public void write(String inLine) {
+		inLine = inLine.trim();
+		
+		String oldWord = inLine.split(" ")[0];
+		String newWords = inLine.substring(oldWord.length() ).trim();
+		
+		ListIterator<String> iter = uncompressedContent.listIterator(0);
+		while (iter.hasNext()) {
+			String line = iter.next();
+			
+			String newLine = line.replace(oldWord, newWords);
+			
+			iter.remove();
+			
+			newLine = newLine.trim();
+			if (!newLine.equals("")) {
+				iter.add(newLine);
+			}
+		}
+	}
+	
+	/**
 	 * @throws IOException if the file cannot be saved
 	 * 
 	 * Saves the file if no name is given by the user
@@ -125,6 +190,13 @@ public class Uncompresser {
 		save(fileName);
 	}
 	
+	/**
+	 * @param fName name to save the file as
+	 * @throws IOException if the file cannot be opened or written to
+	 * 
+	 * This method saves the text into a file. It first fixes the file extension and then
+	 * saves the text to that file name.
+	 */
 	public void save(String fName) throws IOException {
 		fName = fixFileName(fName);
 		
@@ -155,8 +227,16 @@ public class Uncompresser {
 
 	private boolean lastEditSaved = true;
 	private String fileName = "";
-	private String dirPath = "./bin";
+	private String dirPath = "./";
 	private String DEFAULTFNAME = "NEWFILE";
 
+	/**
+	 * The LinkedList is used to store the compressed content because we have the
+	 * need to constantly add or remove lines from the content and since we will need
+	 * to traverse the entirety of it for many of the times that we access the content
+	 * the flaw with LinkedLists having to traverse through from the very beginning is
+	 * not an issue. Each node is a String in order to capture the entire line in
+	 * word format.
+	 */
 	private LinkedList<String> uncompressedContent = new LinkedList<String>();
 }

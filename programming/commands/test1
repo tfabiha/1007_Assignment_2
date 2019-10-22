@@ -1,0 +1,28 @@
+Tabassum Fabiha -- tf2478
+> g
+> p
+0
+1
+> r 0 hello he hi ho hello pi
+> r 0 pi pi pi 
+> p
+0
+1 pi pi pi 
+2 hello he hi ho hello pi 
+3
+> sdfsdf
+THAT IS NOT A VALID COMMAND
+> w pi hik
+> p
+0
+1 hik hik hik 
+2 hello he hi ho hello hik 
+3
+> w hik
+> p
+0
+1 hello he hi ho hello 
+2
+> s test1
+SAVED FILE
+> 

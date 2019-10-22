@@ -1,8 +1,15 @@
 import java.util.*;
 
 /**
- * @author Tabassum Fabiha tf2478
+ * @author Tabassum Fabiha -- tf2478
  *
+ * This Class handles the interacting with the user. It asks the user for input
+ * and then appropriately distributes the commands to theUncompresser or the Compresser,
+ * depending on which system we prefer to use. It is constantly running the talk() method
+ * throughout the entire program. It can handle being asked to get a file, save a file,
+ * print, replace a line, replace a word, and quit the program. If the user at any time
+ * provides a command that results in an exception being thrown then that means the user
+ * did not provid a valid command and therefore the class tells the user so.
  */
 public class Talker {
 
@@ -21,15 +28,15 @@ public class Talker {
 		System.out.print("> ");
 		while (myScanner.hasNextLine()) {
 			try {
-				goodline = myScanner.nextLine();
+				goodLine = myScanner.nextLine();
 				
-				if (needsAction(goodline)) {
-					if (shouldQuit(goodline)) {
+				if (needsAction(goodLine)) {
+					if (shouldQuit(goodLine)) {
 						quit();
 						break;
 					}
 					else {
-						process(goodline);
+						process(goodLine);
 					}
 				}
 			}
@@ -67,7 +74,15 @@ public class Talker {
 		throw new Exception();
 	}
 	
-	// do
+	
+	/**
+	 * @param inLine the command given by the user
+	 * @return should the program quit
+	 * 
+	 * This method checks if we should quit the program or not by first
+	 * seeing if the user has asked us to quit and if they have, seeing if we have
+	 * saved any edits we've made. 
+	 */
 	private boolean shouldQuit(String inLine) {
 		String[] command = inLine.split(" ");
 		
@@ -87,7 +102,14 @@ public class Talker {
 		System.out.println("GOODBYE");
 	}
 	
-	// do
+	/**
+	 * @param inLine the command given by the user
+	 * @throws Exception when an invalid command is given
+	 * 
+	 * This method processes the command given by the user. It calls the
+	 * myCompresser instance to carry out the tasks of getting a file, writing
+	 * over a line, replacing words, printing, and saving.
+	 */
 	private void process(String inLine) throws Exception {
 		String[] command = inLine.split(" ");
 		
@@ -105,8 +127,10 @@ public class Talker {
 			
 			if (inLine.trim().length() < 2)
 				myCompresser = new Compresser();
+				//myCompresser = new Uncompresser();
 			else
 				myCompresser = new Compresser( inLine.substring(2) );
+				//myCompresser = new Uncompresser( inLine.substring(2) );
 		}
 		
 		//print
@@ -117,9 +141,24 @@ public class Talker {
 		//replace
 		else if (command[0].equals("r")) {
 			if (command.length < 3)
-				myCompresser.remove(Integer.parseInt(command[1]));
+				myCompresser.removeLine(Integer.parseInt(command[1]));
 			else
 				myCompresser.replace(Integer.parseInt(command[1]), inLine.substring(4));		
+		}
+		
+		//write
+		else if (command[0].equals("w")) {
+			if (command.length < 2) {
+				throw new Exception();
+			}
+			
+			if (command.length < 3) {
+				myCompresser.removeWord(inLine.substring(2));
+			}
+			else {
+				myCompresser.write(inLine.substring(2));
+			}
+			
 		}
 		
 		//save
@@ -138,9 +177,9 @@ public class Talker {
 		System.out.println("THAT IS NOT A VALID COMMAND");
 	}
 	
-	private static String[] commandKeys = {"g", "p", "r", "s", "q"};
-	//private Uncompresser myCompresser = new Uncompresser();
+	private static String[] commandKeys = {"g", "p", "r", "w", "s", "q"};
+	//private Uncompresser myCompresser;
 	private Compresser myCompresser;
 	private Scanner myScanner;
-	private String goodline;
+	private String goodLine;
 }

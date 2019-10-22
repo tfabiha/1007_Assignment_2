@@ -1,0 +1,37 @@
+Tabassum Fabiha -- tf2478
+> g test0.txt
+> p
+0
+1 hello hi hi hi hello hi 
+2 hi hi hello pirates and treasures 
+3
+> w hi hello
+> p
+0
+1 hello hello hello hello hello hello 
+2 hello hello hello pirates and treasures 
+3
+> s test2
+SAVED FILE
+> w nothing
+> p
+0
+1 hello hello hello hello hello hello 
+2 hello hello hello pirates and treasures 
+3
+> s test2.txt
+SAVED FILE
+> w hello hah hah hah hah hah
+> p
+0
+1 hah hah hah hah hah hah hah hah hah hah hah hah hah hah hah hah hah hah hah hah hah hah hah hah hah hah hah hah hah hah 
+2 hah hah hah hah hah hah hah hah hah hah hah hah hah hah hah pirates and treasures 
+3
+> s test2
+SAVED FILE
+> p
+0
+1 hah hah hah hah hah hah hah hah hah hah hah hah hah hah hah hah hah hah hah hah hah hah hah hah hah hah hah hah hah hah 
+2 hah hah hah hah hah hah hah hah hah hah hah hah hah hah hah pirates and treasures 
+3
+> 
